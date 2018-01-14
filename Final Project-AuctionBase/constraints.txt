@@ -1,0 +1,68 @@
+1. No two users can share the same User_ID.
+1) Chose to use the “user_id” attribute as the PRIMARY KEY of Table “Users”.
+2) “create.sql” file contains this constraint. 
+
+2. All seller and bidders must already exist as users.
+1) Chose to use the “seller_id” attribute as the FOREIGN KEY of Table “Items” referencing the “user_id” attribute of Table “Users”. 
+   Chose to use the “user_id” attribute as the FOREIGN KEY of Table “Bids” referencing the “user_id” attribute of Table “ Users”. 
+2) “create.sql” file contains these two constraints.
+
+3. No two items can share the same Item_ID.
+1) Chose to use the “item_id” attribute as the PRIMARY KEY of Table “Items”.
+2) “create.sql” file contains this constraint.
+
+4. Every bid must correspond to an actual item.
+1) Chose to use the “item_id” attribute as the FOREIGN KEY of Table “Bids” referencing the “item_id” of Table “Items”.
+2) “create.sql” file contains this constraint.
+
+5. The items for a given category must all exist.
+1) Chose to use the “item_id” attribute as the FOREIGN KEY of Table “Categories” referencing the “item_id” of Table “Items”.
+2) “create.sql” file contains this constraint. 
+
+6. An item cannot belong to a particular category more than once.
+1) Chose to use “item_id” and “category” attributes as the PRIMARY KEY of Table “Categories”.
+2) “create.sql” file contains this constraint.  
+
+7. The end time for an auction must always be after its start time.
+1) Chose to use the Check constraint in Table “Items” to check if ends is greater then started. 
+2) “create.sql” file contains this constraint. 
+
+8. The Current Price of an item must always match the Amount of the most recent bid for that item.
+1) Chose to use a Trigger to update the “currently” attribute of Table “Items” to make sure the new “amount” matches the “currently” after insert on Table “Bids”.
+2) “trigger1_add.sql” and “trigger1_drop.sql” were added.  
+
+9. A user may not bid on an item he or she is also selling.
+1) Chose to use a Trigger to prevent the “user_id” attribute of Table “Bids” to be the same as the “seller_id” attribute of Table “Items” before insert on Table “Bids”.
+2) “trigger2_add.sql” and “trigger2_drop.sql” were added. 
+
+10. No auction may have two bids at the exact same time.
+1)  Chose to use a UNIQUE constraint on “item_id” and “time” attributes of Table “Bids” to make sure they are unique. 
+2) “create.sql” contains this constraint.
+
+11. No auction may have a bid before its start time or after its end time.
+1)  Chose to use a Trigger to prevent the “time” attribute of the new bid less than “started” attribute of Table “Items” or greater than “ends” attribute of Table “Items” before insertion new bid into Table “Bids. 
+2)  “trigger3_add.sql” and “trigger3_drop.sql” were added.
+
+12. No user can make a bid of the same amount to the same item more than once.
+1)  Chose to use the “item_id”,”user_id” and “amount” attributes as the PRIMARY KEY of Table “Bids”.
+2)  “create.sql” contains this constraint.
+
+13. In every auction, the Number_of_Bids attribute corresponds to the actual number of bids for that particular item.
+1)  Chose to use a Trigger to update the “number_of_bids” attribute of Table “Items” by increasing one every time there is a new insertion of the item in Table “Bids”.
+2)  “trigger4_add.sql” and “trigger4_drop.sql” were added.
+
+14. Any new bid for a particular item must have a higher amount than any of the previous bids for that particular item.
+1） Chose to use a Trigger to prevent the new “amount” of bid is less than the “currently” of that item in Table “Items” before insert on Table “Bids”.
+2)  “trigger5_add.sql” and “trigger5_drop.sql” were added.
+
+15. All new bids must be placed at the time which matches the current time of your AuctionBase system.
+1)  Chose to use a Trigger to make sure the “time” attribute in Table “Bids” is the same as the “time” attribute in Table “CurrentTime”.
+2)  “trigger6_add.sql” and “trigger6_drop.sql” were added.
+
+16. The current time of your AuctionBase system can only advance forward in time, not backward in time.
+1)  Chose to use a Trigger to make sure every update of Table “CurrentTime”, its “time” attribute is greater than the old one.
+2)  “trigger7_add.sql” and “trigger7_drop.sql” were added.
+
+
+
+
